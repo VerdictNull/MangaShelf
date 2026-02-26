@@ -58,7 +58,6 @@ async function createWindow(): Promise<void> {
   mainWindow.on('ready-to-show', () => {
     mainWindow!.show()
     if (state.isMaximized) mainWindow!.maximize()
-    if (state.isFullscreen) mainWindow!.setFullScreen(true)
   })
 
   mainWindow.on('close', () => {
@@ -73,6 +72,13 @@ async function createWindow(): Promise<void> {
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url)
     return { action: 'deny' }
+  })
+
+  // F11 toggles fullscreen (always active — escape hatch if app relaunches in fullscreen)
+  mainWindow.webContents.on('before-input-event', (_e, input) => {
+    if (input.type === 'keyDown' && input.key === 'F11') {
+      mainWindow!.setFullScreen(!mainWindow!.isFullScreen())
+    }
   })
 
   // F12 / Ctrl+Shift+I opens DevTools in dev mode

@@ -31,8 +31,10 @@ export function getWindowState(): WindowState {
 
 export function saveWindowState(win: BrowserWindow): void {
   try {
-    const state: WindowState = win.isMinimized() || win.isMaximized() || win.isFullScreen()
-      ? { ...getWindowState(), isMaximized: win.isMaximized(), isFullscreen: win.isFullScreen() }
+    // Never persist fullscreen — it's reader-only and the titlebar disappears in
+    // fullscreen (frameless window), so there's no OS-level way to exit on relaunch.
+    const state: WindowState = win.isMinimized() || win.isMaximized()
+      ? { ...getWindowState(), isMaximized: win.isMaximized(), isFullscreen: false }
       : { ...win.getBounds(), isMaximized: false, isFullscreen: false }
     writeFileSync(stateFile(), JSON.stringify(state))
   } catch { /* ignore */ }

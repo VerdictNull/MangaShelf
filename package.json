@@ -1,6 +1,6 @@
 {
   "name": "mangashelf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A desktop manga reader with MangaDex integration",
   "main": "./out/main/index.js",
   "author": "MangaShelf",
@@ -73,7 +73,8 @@
       {
         "provider": "github",
         "owner": "VerdictNull",
-        "repo": "MangaShelf"
+        "repo": "MangaShelf",
+        "releaseType": "release"
       }
     ],
     "productName": "MangaShelf",
@@ -94,6 +95,7 @@
       "node_modules/bindings/**/*"
     ],
     "win": {
+      "icon": "resources/icon.ico",
       "target": [
         {
           "target": "nsis",
