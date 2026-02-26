@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+*.db
+*.db-shm
+*.db-wal
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# env
+.env
+.env.local

@@ -1,0 +1,51 @@
+# Triggered when a version tag is pushed (e.g. v1.0.0, v1.2.3).
+# Builds the Windows installer + portable and publishes them as a GitHub Release.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # better-sqlite3 is a native addon that must be compiled for the specific
+      # Electron version. GitHub Actions starts with a clean environment so
+      # ELECTRON_RUN_AS_NODE is not set — no workaround needed here.
+      - name: Rebuild better-sqlite3 for Electron
+        run: npx @electron/rebuild -f -w better-sqlite3
+
+      # electron-vite build compiles main + preload + renderer (including the
+      # SQL migrations copy plugin). electron-builder --publish always creates
+      # the GitHub Release and uploads the installer, portable, and latest.yml.
+      - name: Build and publish release
+        run: npm run release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Keep dist/ artifacts in the Actions run for 7 days for manual inspection.
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-windows
+          path: dist/
+          retention-days: 7

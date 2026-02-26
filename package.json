@@ -1,0 +1,117 @@
+{
+  "name": "mangashelf",
+  "version": "1.0.0",
+  "description": "A desktop manga reader with MangaDex integration",
+  "main": "./out/main/index.js",
+  "author": "MangaShelf",
+  "homepage": ".",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "package": "electron-vite build && electron-builder",
+    "package:win": "electron-vite build && electron-builder --win",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "release": "electron-vite build && electron-builder --publish always"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
+    "@tanstack/react-query": "^5.90.21",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.7.9",
+    "better-sqlite3": "^11.7.0",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "electron-log": "^5.2.4",
+    "electron-store": "^10.0.0",
+    "electron-updater": "^6.3.9",
+    "framer-motion": "^12.34.3",
+    "lucide-react": "^0.575.0",
+    "p-queue": "^8.1.0",
+    "pdfjs-dist": "^4.10.38",
+    "react-router-dom": "^7.13.1",
+    "react-window": "^2.2.7",
+    "recharts": "^3.7.0",
+    "tailwind-merge": "^3.5.0",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config-prettier": "^2.0.0",
+    "@electron-toolkit/eslint-config-ts": "^2.0.0",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@electron/rebuild": "^4.0.3",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/adm-zip": "^0.5.7",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.4",
+    "@types/react-dom": "^19.0.2",
+    "@types/react-window": "^1.8.8",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "cross-env": "^10.1.0",
+    "electron": "^32.3.3",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.0.0",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  },
+  "peerDependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "build": {
+    "appId": "dev.mangashelf.app",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "VerdictNull",
+        "repo": "MangaShelf"
+      }
+    ],
+    "productName": "MangaShelf",
+    "copyright": "Copyright © 2025 MangaShelf",
+    "directories": {
+      "buildResources": "resources",
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "resources/**/*",
+      "node_modules/better-sqlite3/**/*",
+      "node_modules/bindings/**/*"
+    ],
+    "asarUnpack": [
+      "**/*.node",
+      "node_modules/better-sqlite3/**/*",
+      "node_modules/bindings/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
