@@ -95,7 +95,7 @@
       "node_modules/bindings/**/*"
     ],
     "win": {
-      "icon": "resources/icon.ico",
+      "icon": "resources/Icon.ico",
       "target": [
         {
           "target": "nsis",
