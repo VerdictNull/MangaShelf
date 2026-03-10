@@ -95,7 +95,7 @@
       "node_modules/bindings/**/*"
     ],
     "win": {
-      "icon": "resources/Icon.ico",
+      "icon": "resources/MangaShelf_Icon.ico",
       "target": [
         {
           "target": "nsis",
